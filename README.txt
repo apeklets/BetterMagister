@@ -1,0 +1,3 @@
+# BetterMagister
+
+Description goes here
