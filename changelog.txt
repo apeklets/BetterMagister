@@ -1,0 +1,59 @@
+==== v1.0 ====
++ Kleuren Vandaagscherm aangepast
++ Kleuren Agenda/Afsprakenlijst aangepast
+
+==== v1.1 ====
++ Verbetering Agenda/Afsprakenlijst
++ Verbetering Vandaagscherm
++ Verbetering Aanwezigheid
+
+==== v1.2 ====
++ Berichten inbox aangepast
++ Bronnen ELO aangepast
+
+==== v1.3 ====
++ Opdrachten ELO aangepast
++ Verbetring ELO Bronnen
+
+==== v1.3.2 ====
++ Text Opdrachten ELO wit gemaakt
+
+==== v1.4 ====
++ Studiewijzers ELO header achtergrond grijs gemaakt
++ Verbetering Aanwezigheid
+
+==== v1.4.2 ====
++ Leermiddelen aangepast
++ Studiewijzers ELO text wit gemaakt
+
+==== v1.4.3 ====
++ Aantal bugs bij ELO Studiewijzers vakken opgelost
++ Aantal bugs bij ELO Opdrachten opgelost
++ Verbetering Agenda/Afsprakenlijst
+
+==== v1.5 ====
++ Kleuren Cijferoverzicht aangepast
+
+==== v1.6.1 ====
++ Fix profielpagina
+
+==== v1.6.2 ====
++Fix inlogpagina die niet werkte sinds 1.6.1
+
+==== v1.6.3 ====
++Fix weergave UI
++'Wijzigingen voor morgen' fix
+
+==== v1.6.4 ====
++ Fix 'Sessie afgelopen' UI
+
+==== v1.7 ====
++ Metro UI stylesheet
++ Settingsfunctie; kiezen tussen stylesheets
+
+==== v1.8 ====
++ Automatische Agendaweergave functie
++ Agendafunctie optie in settings
+
+==== Gepland ====
++ Zesjescultuur (functie die berekent wat je moet halen om een voldoende te staan voor een vak)
