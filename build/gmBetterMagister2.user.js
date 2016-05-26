@@ -304,6 +304,19 @@ var settingsSetup = function() {
 	});
 };
 
+var zesjescultuur = function() {
+	var zesjescultuurVersion = 'dev0.1'
+	var zesjescultuurWidget = $('<div id="zesjescultuur"><div class="block"><h3></h3><div class="content"></div><footer class="endlink"</div></div>');
+	var lazyLoad = setInterval(function() {
+		if (!$('#cijferoverzichtgrid').length) {
+			return;
+		} else {
+			clearInterval(lazyLoad)
+			$('<footer class="endlink"><a id="zesjescultuurLink">Mutaties berekenen</a></footer>').appendTo('#cijferoverzichtgrid');
+		};
+	}, 2000);
+}
+
 var autoAgendaWeergave = function(x) {
 	var lazyLoad = setInterval(function() {
 		if(!$('#menuKnopAgenda').length) {
