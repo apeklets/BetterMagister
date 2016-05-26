@@ -5,7 +5,7 @@
 // @include 	https://sga.magister.net/*
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @author 	Wouter Damen
-// @version 	v1.8.1
+// @version 	v1.9build2
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
@@ -305,7 +305,7 @@ var settingsSetup = function() {
 };
 
 var zesjescultuur = function() {
-	var zesjescultuurVersion = 'dev0.1'
+	var zesjescultuurVersion = 'dev0.1';
 	var zesjescultuurWidget = $('<div id="zesjescultuur"><div class="block"><h3></h3><div class="content"></div><footer class="endlink"</div></div>');
 	var lazyLoad = setInterval(function() {
 		if (!$('#cijferoverzichtgrid').length) {
@@ -351,6 +351,9 @@ var main = function() {
 		settingsSetup();
 	});
 	autoAgendaWeergave(GM_getValue('settings-Agenda', 'lijst'));
+	if(window.location.href == 'https://sga.magister.net/magister/#/cijfers') {
+		zesjescultuur();
+	};
 };
 
 $(document).ready(main);
