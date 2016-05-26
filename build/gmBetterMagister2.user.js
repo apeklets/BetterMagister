@@ -307,6 +307,7 @@ var settingsSetup = function() {
 var zesjescultuur = function() {
 	var zesjescultuurVersion = 'dev0.1';
 	var zesjescultuurWidget = $('<div id="zesjescultuur"><div class="block"><h3></h3><div class="content"></div><footer class="endlink"</div></div>');
+	GM_addStyle(' #zesjescultuurLink { float: left !important; }');
 	var lazyLoad = setInterval(function() {
 		if (!$('#cijferoverzichtgrid').length) {
 			return;
