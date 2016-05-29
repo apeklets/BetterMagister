@@ -355,6 +355,9 @@ var main = function() {
 	if(window.location.href == 'https://sga.magister.net/magister/#/cijfers') {
 		zesjescultuur();
 	};
+	$('#menuKnopCijferoverzicht').click(function() {
+		zesjescultuur();
+	});
 };
 
 $(document).ready(main);
