@@ -5,12 +5,12 @@
 // @include 	https://sga.magister.net/*
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @author 	Wouter Damen
-// @version 	v1.9build2
+// @version 	v1.9build3
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
 // ==/UserScript==
-var bmVersion = "v1.8.1";
+var bmVersion = "v1.9";
 var metroVersion = "Metro v1.3";
 var darkmodeVersion = "Dark Mode v1.6.5";
 
