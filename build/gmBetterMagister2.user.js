@@ -304,10 +304,17 @@ var settingsSetup = function() {
 	});
 };
 
-var zesjescultuur = function() {
-	var zesjescultuurVersion = 'dev0.1';
+var zesjescultuurCalc = function() {
+	//Widget
 	var zesjescultuurWidget = $('<div id="zesjescultuur"><p>Test</p></div>');
+	GM_addStyle('#zesjescultuur { width: 33%; padding: 5px; }')
+	zesjescultuurWidget.appendTo('#cijferoverzichtgrid')
+}
+
+var zesjescultuurLoad = function() {
+	//Link CSS
 	GM_addStyle(' #zesjescultuurLink { float: left !important; }');
+	//Loading
 	var lazyLoad = setInterval(function() {
 		if (!$('#cijferoverzichtgrid').length) {
 			return;
@@ -315,8 +322,7 @@ var zesjescultuur = function() {
 			clearInterval(lazyLoad)
 			$('<footer class="endlink"><a id="zesjescultuurLink">Mutaties berekenen</a></footer>').appendTo('#cijferoverzichtgrid');
 			$('#zesjescultuurLink').click(function() {
-				zesjescultuurWidget.appendTo('#cijferoverzichtgrid');
-				
+				zesjescultuurCalc();
 			});
 		};
 	}, 2000);
@@ -357,7 +363,7 @@ var main = function() {
 	});
 	autoAgendaWeergave(GM_getValue('settings-Agenda', 'lijst'));
 	if(window.location.href == 'https://sga.magister.net/magister/#/cijfers') {
-		zesjescultuur();
+		zesjescultuurLoad();
 	};
 	$('#menuKnopCijferoverzicht').click(function() {
 		zesjescultuur();
