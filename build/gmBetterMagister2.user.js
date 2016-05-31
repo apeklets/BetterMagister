@@ -5,7 +5,7 @@
 // @include 	https://sga.magister.net/*
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @author 	Wouter Damen
-// @version 	v1.9build4
+// @version 	v1.9build5
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
