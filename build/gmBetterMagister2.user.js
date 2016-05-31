@@ -13,6 +13,7 @@
 var bmVersion = "v1.9";
 var metroVersion = "Metro v1.3";
 var darkmodeVersion = "Dark Mode v1.6.5";
+var zesjescultuurVersion = 'dev0.3';
 
 var MetroUI = function() {
 //v1.0
@@ -309,7 +310,7 @@ var zesjescultuurCalc = function() {
 	var zesjescultuurWidget = $('<div id="zesjescultuur"><p>Test</p></div>');
 	GM_addStyle('#zesjescultuur { width: 33%; padding: 5px; }')
 	zesjescultuurWidget.appendTo('#cijferoverzichtgrid')
-}
+};
 
 var zesjescultuurLoad = function() {
 	//Link CSS
@@ -366,7 +367,7 @@ var main = function() {
 		zesjescultuurLoad();
 	};
 	$('#menuKnopCijferoverzicht').click(function() {
-		zesjescultuur();
+		zesjescultuurLoad();
 	});
 };
 
