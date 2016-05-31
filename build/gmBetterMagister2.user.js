@@ -306,7 +306,7 @@ var settingsSetup = function() {
 
 var zesjescultuur = function() {
 	var zesjescultuurVersion = 'dev0.1';
-	var zesjescultuurWidget = $('<div id="zesjescultuur"><div class="block"><h3>Text</h3><div class="content"><p>Test</p></div><footer class="endlink"</div></div>');
+	var zesjescultuurWidget = $('<div id="zesjescultuur"><p>Test</p></div>');
 	GM_addStyle(' #zesjescultuurLink { float: left !important; }');
 	var lazyLoad = setInterval(function() {
 		if (!$('#cijferoverzichtgrid').length) {
@@ -316,6 +316,7 @@ var zesjescultuur = function() {
 			$('<footer class="endlink"><a id="zesjescultuurLink">Mutaties berekenen</a></footer>').appendTo('#cijferoverzichtgrid');
 			$('#zesjescultuurLink').click(function() {
 				zesjescultuurWidget.appendTo('#cijferoverzichtgrid');
+				
 			});
 		};
 	}, 2000);
