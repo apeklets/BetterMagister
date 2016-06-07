@@ -5,15 +5,15 @@
 // @include 	https://sga.magister.net/*
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @author 	Wouter Damen
-// @version 	v1.9build5
+// @version 	v1.9.1
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
 // ==/UserScript==
-var bmVersion = "v1.9";
-var metroVersion = "Metro v1.3";
+var bmVersion = "v1.9.1";
+var metroVersion = "Metro v1.4";
 var darkmodeVersion = "Dark Mode v1.6.5";
-var zesjescultuurVersion = 'dev0.3';
+var zesjesVersion = 'dev0.3';
 
 var MetroUI = function() {
 //v1.0
@@ -163,6 +163,20 @@ var MetroUI = function() {
 	//Beoordeelde producten
 	GM_addStyle( " .sm-grid.k-grid .k-grid-header th.k-header { background: #222 !important; }" )
 	GM_addStyle( " .sm-grid.k-grid .k-grid-header th.k-header > a.k-link { color: #F2F2F2 !important; }" )
+//v1.3.1
+	//Zesjescultuur
+	GM_addStyle('#zesjescultuur h3 { padding-top: 5px !important; }')
+//v1.4
+	//Agenda Werkweek,week,dagoverzicht
+	GM_addStyle('.k-scheduler-table { background-color: #222 !important; }')
+	GM_addStyle('.k-scheduler-table td { border-color: #424242 !important; }')
+	GM_addStyle('.k-nonwork-hour { background-color: #424242 !important; border-color: #333 !important; }')
+	GM_addStyle('.k-scheduler-times tr { background-color: #333 !important; }')
+	GM_addStyle('.k-scheduler-times th { color: #F2F2F2 !important; }')
+	GM_addStyle('.k-scheduler .k-event { background: #141414 -257px none repeat-x !important; color: #FFF !important; }')
+	GM_addStyle('.k-scheduler-workWeekview .k-scheduler-header .k-scheduler-table th { background: #333 !important; color: #F2F2F2 !important; box-shadow: 0 2px 5px 0 #444 !important; }')
+	GM_addStyle('.k-today { background-color: #313131 !important; }')
+	GM_addStyle('.k-scheduler-table th { background: #333 !important; }')
 };
 
 var darkMode = function() {
@@ -307,27 +321,36 @@ var settingsSetup = function() {
 
 var zesjescultuurCalc = function() {
 	//Widget
-	var zesjescultuurWidget = $('<div id="zesjescultuur"><p>Test</p></div>');
-	GM_addStyle('#zesjescultuur { width: 33%; padding: 5px; }')
-	zesjescultuurWidget.appendTo('#cijferoverzichtgrid')
+	var zesjescultuurWidget = $('<div id="zesjescultuur"><div class="block"><h3>Cijfers berekenen</h3><div class="content"><p>Test</p></div><footer class="endlink"><p>' + zesjesVersion + '</p><a>sluiten</a></footer></div></div>');
+	$('#zesjescultuur .endlink a').click(function() {
+		$('#zesjescultuur').remove();
+		$('<footer class="endlink" id="zesjescultuurEndlink"><a id="zesjescultuurLink">Mutaties berekenen</a></footer>').appendTo('#cijferoverzichtgrid');
+	});
+	GM_addStyle('#zesjescultuur { width: 33%; margin: 5px; }')
+	GM_addStyle('#cijferoverzichtgrid { background-color: #242424; }')
+	zesjescultuurWidget.appendTo('#cijferoverzichtgrid');
 };
 
 var zesjescultuurLoad = function() {
 	//Link CSS
 	GM_addStyle(' #zesjescultuurLink { float: left !important; }');
+	GM_addStyle(' #zesjescultuurLinkx { float: left !important; }');
 	//Loading
 	var lazyLoad = setInterval(function() {
 		if (!$('#cijferoverzichtgrid').length) {
 			return;
 		} else {
 			clearInterval(lazyLoad)
-			$('<footer class="endlink"><a id="zesjescultuurLink">Mutaties berekenen</a></footer>').appendTo('#cijferoverzichtgrid');
+			$('<footer class="endlink" id="zesjescultuurEndlink"><a id="zesjescultuurLink">Mutaties berekenen</a></footer>').appendTo('#cijferoverzichtgrid');
 			$('#zesjescultuurLink').click(function() {
+				$('#zesjescultuurLinkx').remove();
 				zesjescultuurCalc();
+				$('#zesjescultuurLink').remove();
+				$('<a id="zesjescultuurLinkx">Mutaties berekenen</a>').appendTo('#zesjescultuurEndlink');
 			});
 		};
 	}, 2000);
-}
+};
 
 var autoAgendaWeergave = function(x) {
 	var lazyLoad = setInterval(function() {
@@ -359,16 +382,19 @@ var main = function() {
 	if(GM_getValue('settings-MetroUI', false)) {
 		MetroUI();
 	};
+	if($('body').attr('class') == 'account') {
+		$('.version span').text($('.version span').attr('data-ng-bind-template') + ', BetterMagister v' + bmVersion);
+	};
 	$('.settings-Settings').click(function() {
 		settingsSetup();
 	});
 	autoAgendaWeergave(GM_getValue('settings-Agenda', 'lijst'));
-	if(window.location.href == 'https://sga.magister.net/magister/#/cijfers') {
+	/*if(window.location.href == 'https://sga.magister.net/magister/#/cijfers') {
 		zesjescultuurLoad();
-	};
+	}; 
 	$('#menuKnopCijferoverzicht').click(function() {
 		zesjescultuurLoad();
-	});
+	}); Zesjescultuur, not complete*/
 };
 
 $(document).ready(main);
