@@ -4,9 +4,9 @@ var BetterMagister = BetterMagister || (function(){
 	return {
 		init: function(Args) {
 			_args = Args;
-		}
+		},
 		getSettings: function() {
 			return _args;
-		}
+		};
 	};
 }());
