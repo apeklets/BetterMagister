@@ -1,0 +1,52 @@
+.settings-Setup-widget {
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0,0,0,0.67);
+	position: absolute;
+	z-index: 999999;
+}
+
+.settings-Setup-widget .block {
+	width: 500px;
+	margin: auto;
+	background-color: #FFF;
+	margin-top: 100px;
+	border: 1px solid #111;
+}
+
+.settings-Setup-widget fieldset {
+	color: #FFF;
+	font-size: 15px;
+}
+
+.settings-Setup-form label {
+	font-size: 1rem;
+	font-weight: unset;
+	padding-bottom: 0 !important;
+	padding-left: 0 !important;
+}
+
+.settings-Setup-form select {
+	font-size: .8rem !important;
+	padding: .2rem;
+	width: 140px;
+	margin-bottom: 5px;
+}
+
+.settings-Setup-widget button {
+	margin-top: .1rem;
+	margin-bottom: 10px;
+}
+
+#styleVersion {
+	padding: 0 8px 8px !important;
+}
+
+.settings-Setup-widget h3 {
+	padding-top: 5px !important;
+	font-weight: 700 !important;
+}
+
+.settings-Setup-widget .content {
+	height: auto !important;
+}
