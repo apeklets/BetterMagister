@@ -50,3 +50,15 @@
 .settings-Setup-widget .content {
 	height: auto !important;
 }
+
+.settings-Settings { 
+	border-left: 1px solid #666; position: relative; cursor: pointer; 
+}
+
+.settings-Settings:hover { 
+	background-color: #000 !important; 
+}
+
+.account .settings-Settings { 
+	display: none !important; 
+}
