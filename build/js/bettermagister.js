@@ -1,19 +1,4 @@
-var MYLIBRARY = MYLIBRARY || (function(){
-    var _args = {}; // private
-
-    return {
-        init : function(Args) {
-            _args = Args;
-            // some other initialising
-        },
-        helloWorld : function() {
-            alert('Hello World! -' + _args[0]);
-        }
-    };
-}());
-
-
-var BetterMagister = BetterMagister || (function(){
+var BetterMagister = function() {
 	var bmVersion = "v1.9.1";
 	var metroVersion = "Metro v1.4";
 	var darkmodeVersion = "Dark Mode v1.6.5";
@@ -66,8 +51,8 @@ var BetterMagister = BetterMagister || (function(){
 	return {
 		main : function(settings) {
 			//Load Settings
-			var settings-Stylesheet = settings.Stylesheet
-			var settings-Agenda = settings.Agenda
+			var settings-Stylesheet = settings.Stylesheet;
+			var settings-Agenda = settings.Agenda;
 			//Settings-setup button
 			$('<link rel="stylesheet" href="https://raw.githubusercontent.com/apeklets/BetterMagister/gh-pages/build/css/settings-Setup.css">').appendTo('head');
 			$('<div class="settings-Settings"><span class="icon-settings" style="color: red !important">::before</span></div>').appendTo('.header');
@@ -80,4 +65,4 @@ var BetterMagister = BetterMagister || (function(){
 			}
 		}
 	};
-}());
+};
