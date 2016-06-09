@@ -9,4 +9,4 @@ var BetterMagister = BetterMagister || (function(){
 			return _args;
 		};
 	};
-});
+}());
