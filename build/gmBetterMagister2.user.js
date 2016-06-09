@@ -4,6 +4,7 @@
 // @description Verbeter de normale Magister 6
 // @include 	https://sga.magister.net/*
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
+// @require https://rawgit.com/apeklets/BetterMagister/gh-pages/build/js/cssinfo.js
 // @author 	Wouter Damen
 // @version 	v1.10build1
 // @grant 	GM_addStyle
@@ -11,14 +12,9 @@
 // @grant	GM_getValue
 // ==/UserScript==
 var bmVersion = "v1.10";
-var metroVersion = "Metro v1.4";
-var darkmodeVersion = "Dark Mode v1.6.5";
+var metroVersion = cssinfo.metroVersion;
+var darkmodeVersion = cssinfo.darkmodeVersion;
 var zesjesVersion = 'dev0.3';
-
-var getCSSInfo = function() {
-	$('<script type="text/javascript" src="https://rawgit.com/apeklets/BetterMagister/gh-pages/build/js/cssinfo.js"></script>').appendTo('head');
-	return var metroVersion = cssinfo.metroVersion, darkmodeVersion = cssinfo.darkmodeVersion;
-};
 
 var settingsSetup = function() {
 	//Setup widget CSS
