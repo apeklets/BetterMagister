@@ -7,6 +7,6 @@ var BetterMagister = BetterMagister || (function(){
 		},
 		getSettings: function() {
 			return _args;
-		};
+		}
 	};
 }());
