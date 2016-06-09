@@ -6,7 +6,7 @@
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
 // @require https://rawgit.com/apeklets/BetterMagister/gh-pages/build/js/cssinfo.js
 // @author 	Wouter Damen
-// @version 	v1.10build1
+// @version 	v1.10
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
