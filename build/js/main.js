@@ -4,11 +4,11 @@ var darkmodeVersion = "Dark Mode v1.6.5";
 var zesjesVersion = 'dev0.3';
 
 var MetroUI = function() {
-	$('<link rel="stylesheet" href="https://raw.githubusercontent.com/apeklets/BetterMagister/gh-pages/build/css/metro.min.css">').appendTo('head');
+	$('<link rel="stylesheet" href="https://rawgit.com/apeklets/BetterMagister/gh-pages/build/css/metro.min.css">').appendTo('head');
 };
 
 var darkMode = function() {
-	$('<link rel="stylesheet" href="https://raw.githubusercontent.com/apeklets/BetterMagister/gh-pages/build/css/darkmode.min.css">').appendTo('head');
+	$('<link rel="stylesheet" href="https://rawgit.com/apeklets/BetterMagister/gh-pages/build/css/darkmode.min.css">').appendTo('head');
 };
 
 var settingsSetup = function(settings) {
