@@ -619,6 +619,9 @@ span.datetime-label {
 	background: #333 !important;
 }
 
+/* v1.4.1 */
+/* Fix studiewijzer titels/links */
+
 .studiewijzer-onderdeel div.content ul > li > a {
 	color: #00AFFF !important;
 }
@@ -626,6 +629,9 @@ span.datetime-label {
 .onderdeel-vantot {
 	color: #F2F2F2 !important;
 }
+
+/* v1.4.2 */
+/* Fix contactgegevens dialog bij inloggen */
 
 .preview strong {
 	color: #F2F2F2 !important;
