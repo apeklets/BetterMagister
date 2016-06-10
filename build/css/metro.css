@@ -626,3 +626,7 @@ span.datetime-label {
 .onderdeel-vantot {
 	color: #F2F2F2 !important;
 }
+
+.preview strong {
+	color: #F2F2F2 !important;
+}
