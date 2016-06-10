@@ -622,3 +622,7 @@ span.datetime-label {
 .studiewijzer-onderdeel div.content ul > li > a {
 	color: #00AFFF !important;
 }
+
+.onderdeel-vantot {
+	color: #F2F2F2 !important;
+}
