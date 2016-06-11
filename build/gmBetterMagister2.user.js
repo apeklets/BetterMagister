@@ -3,18 +3,18 @@
 // @namespace 	betterSgaMagisterNet2
 // @description Verbeter de normale Magister 6
 // @include 	https://sga.magister.net/*
-// @require  http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
-// @require https://rawgit.com/apeklets/BetterMagister/gh-pages/build/js/info.js
+// @require  http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
+// @require https://rawgit.com/apeklets/BetterMagister/gh-pages/build/js/cssinfo.js
 // @author 	Wouter Damen
-// @version 	v1.11
+// @version 	v1.10
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
 // ==/UserScript==
-var bmVersion = "v1.11";
-var bmVersionx = "v1.11build2"
-var metroVersion = BetterMagisterInfo.metroVersion;
-var darkmodeVersion = BetterMagisterInfo.darkmodeVersion;
+var bmVersion = "v1.10";
+var metroVersion = cssinfo.metroVersion;
+var darkmodeVersion = cssinfo.darkmodeVersion;
+var zesjesVersion = 'dev0.3';
 
 var settingsSetup = function() {
 	//Setup widget CSS
@@ -115,33 +115,6 @@ var autoAgendaWeergave = function(x) {
 	}, 100);
 };
 
-var savePassword = function() {
-	var lazyLoad = setInterval(function() {
-		if(!$('.text-input #password').length) {
-			return;
-		} else {
-			GM_addStyle('checkbox-rememberpw { margin-top: 35px; }') //Adding in checkbox
-			GM_addStyle('.account .checkbox-input { height: 0px !important; }')
-			$('<div class="checkbox-input" id="checkbox-rememberpw"><input class="ng-pristine ng-untouched ng-valid" name="rememberpw" data-ng-model="rememberUsername" id="rememberpw" tabindex="3" type="checkbox"><label for="rememberpw"><span></span>Wachtwoord onthouden</label></div>').appendTo('.content fieldset');
-			clearInterval(lazyLoad)
-			if(GM_getValue('saved-Password', false) != false) { //Loading saved password, if any
-				$('.text-input #password').val(GM_getValue('saved-Password', ""));
-			}
-			if(GM_getValue('settings-Savepw', false)) {
-				$('#checkbox-rememberpw input[type="checkbox"]').attr('checked', 'checked');
-			};
-			$('.buttons').click(function() { //Saving new password
-				if($('#checkbox-rememberpw input[type="checkbox"]:checked').length == 1) {
-					GM_setValue('saved-Password', $('.text-input #password').val());
-					GM_setValue('settings-Savepw', true);
-				} else {
-					GM_setValue('settings-Savepw', false);
-				}
-			});
-		}
-	}, 100);
-};
-
 var main = function() {
 	GM_addStyle(' .settings-Settings { border-left: 1px solid #666; position: relative; cursor: pointer; }')
 	GM_addStyle(' .settings-Settings:hover { background-color: #000 !important; }');
@@ -154,7 +127,7 @@ var main = function() {
 		$('<link rel="stylesheet" href="https://rawgit.com/apeklets/BetterMagister/gh-pages/build/css/metro.min.css">').appendTo('head');
 	};
 	if($('body').attr('class') == 'account') {
-		savePassword();
+		$('.version span').text($('.version span').attr('data-ng-bind-template') + ', BetterMagister v' + bmVersion);
 	};
 	$('.settings-Settings').click(function() {
 		settingsSetup();
