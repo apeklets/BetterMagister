@@ -148,8 +148,7 @@ var savePassword = function() {
 				clearInterval(lazyLoad)
 			}
 		};
-	}, 100);
-}
+}, 100);
 
 var main = function() {
 	GM_addStyle(' .settings-Settings { border-left: 1px solid #666; position: relative; cursor: pointer; }')
