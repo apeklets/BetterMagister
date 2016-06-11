@@ -12,7 +12,7 @@
 // @grant	GM_getValue
 // ==/UserScript==
 var bmVersion = "v1.11";
-var bmVersionx = "v1.11build1"
+var bmVersionx = "v1.11build2"
 var metroVersion = BetterMagisterInfo.metroVersion;
 var darkmodeVersion = BetterMagisterInfo.darkmodeVersion;
 
@@ -125,30 +125,30 @@ var autoAgendaWeergave = function(x) {
 
 var savePassword = function() {
 	var lazyLoad = setInterval(function() {
-			if(!$('.text-input #password').length) {
-				return;
-			} else {
-				GM_addStyle('checkbox-rememberpw { margin-top: 35px; }') //Adding in checkbox
-				GM_addStyle('.account .checkbox-input { height: 0px !important; }')
-				$('<div class="checkbox-input" id="checkbox-rememberpw"><input class="ng-pristine ng-untouched ng-valid" name="rememberpw" data-ng-model="rememberUsername" id="rememberpw" tabindex="3" type="checkbox"><label for="rememberpw"><span></span>Wachtwoord onthouden</label></div>').appendTo('.content fieldset');
-				if(GM_getValue('saved-Password', false) != false) { //Loading saved password, if any
-					$('.text-input #password').val(GM_getValue('saved-Password', ""));
-				}
-				if(GM_getValue('settings-Savepw', false)) {
-					$('#checkbox-rememberpw input[type="checkbox"]').attr('checked', 'checked');
-				};
-				$('.buttons').click(function() { //Saving new password
-					if($('#checkbox-rememberpw input[type="checkbox"]:checked').length == 1) {
-						GM_setValue('saved-Password', $('.text-input #password').val());
-						GM_setValue('settings-Savepw', true);
-					} else {
-						GM_setValue('settings-Savepw', false);
-					}
-				});
-				clearInterval(lazyLoad)
+		if(!$('.text-input #password').length) {
+			return;
+		} else {
+			GM_addStyle('checkbox-rememberpw { margin-top: 35px; }') //Adding in checkbox
+			GM_addStyle('.account .checkbox-input { height: 0px !important; }')
+			$('<div class="checkbox-input" id="checkbox-rememberpw"><input class="ng-pristine ng-untouched ng-valid" name="rememberpw" data-ng-model="rememberUsername" id="rememberpw" tabindex="3" type="checkbox"><label for="rememberpw"><span></span>Wachtwoord onthouden</label></div>').appendTo('.content fieldset');
+			if(GM_getValue('saved-Password', false) != false) { //Loading saved password, if any
+				$('.text-input #password').val(GM_getValue('saved-Password', ""));
 			}
-		};
-}, 100);
+			if(GM_getValue('settings-Savepw', false)) {
+				$('#checkbox-rememberpw input[type="checkbox"]').attr('checked', 'checked');
+			};
+			$('.buttons').click(function() { //Saving new password
+				if($('#checkbox-rememberpw input[type="checkbox"]:checked').length == 1) {
+					GM_setValue('saved-Password', $('.text-input #password').val());
+					GM_setValue('settings-Savepw', true);
+				} else {
+					GM_setValue('settings-Savepw', false);
+				}
+			});
+			clearInterval(lazyLoad)
+		}
+	}, 100);
+}
 
 var main = function() {
 	GM_addStyle(' .settings-Settings { border-left: 1px solid #666; position: relative; cursor: pointer; }')
