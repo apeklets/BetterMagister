@@ -1,6 +1,6 @@
 /* Info 
-BetterMagister Metro UI layout v1.4
-07-Jun-16
+BetterMagister Metro UI layout v1.4.1
+12-Jun-16
 */
 
 /* v1.0 */
@@ -617,4 +617,30 @@ span.datetime-label {
 
 .k-scheduler-table th {
 	background: #333 !important;
+}
+
+/* v1.4.1 */
+/* Fix bugs: icons, labels, studiewijzers*/
+.block h3 span::before {
+	line-height: 35px !important;
+}
+
+.studiewijzer-onderdeel > div.block h3 > .color-label {
+	top: 10px !important;
+}
+
+.block h3 span.icon-up-arrow, .block h3 span.icon-down-arrow {
+	color: #F2F2F2 !important;
+}
+
+.studiewijzer-onderdeel > div.block > div.content > div {
+	color: #F2F2F2 !important;
+} 
+
+.studiewijzer-onderdeel div.content ul > li > a {
+	color: #00AFFF !important;
+}
+
+.projects li a {
+	color: #F2F2F2 !important;
 }
