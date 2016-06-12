@@ -644,3 +644,7 @@ span.datetime-label {
 .projects li a {
 	color: #F2F2F2 !important;
 }
+
+.widget .list li.no-data:hover, .widget .list li.no-data a:hover {
+	background: #222 !important;
+}
