@@ -652,3 +652,17 @@ span.datetime-label {
 .widget .list li.no-data:hover, .widget .list li.no-data a:hover {
 	background: #222 !important;
 }
+
+/* v1.4.2 */
+/* Loading overlay */
+div.loading-overlay {
+	background: #242424 !important;
+}
+
+div.loading-overlay > div::before {
+	color: #F2F2F2 !important;
+}
+
+div.loading-overlay > div > p {
+	color: #F2F2F2 !important;
+}
