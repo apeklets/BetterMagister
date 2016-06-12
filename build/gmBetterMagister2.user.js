@@ -3,17 +3,17 @@
 // @namespace 	betterSgaMagisterNet2
 // @description Verbeter de normale Magister 6
 // @include 	https://sga.magister.net/*
-// @require  http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
-// @require https://rawgit.com/apeklets/BetterMagister/gh-pages/build/js/cssinfo.js
+// @require  http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
+// @require https://rawgit.com/apeklets/BetterMagister/gh-pages/build/js/info.js
 // @author 	Wouter Damen
-// @version 	v1.10
+// @version 	v1.10.1
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
 // ==/UserScript==
-var bmVersion = "v1.10";
-var metroVersion = cssinfo.metroVersion;
-var darkmodeVersion = cssinfo.darkmodeVersion;
+var bmVersion = "v1.10.1";
+var metroVersion = BetterMagisterInfo.metroVersion;
+var darkmodeVersion = BetterMagisterInfo.darkmodeVersion;
 var zesjesVersion = 'dev0.3';
 
 var settingsSetup = function() {
