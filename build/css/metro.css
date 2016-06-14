@@ -1,6 +1,6 @@
 /* Info 
-BetterMagister Metro UI layout v1.4.1
-12-Jun-16
+BetterMagister Metro UI layout v1.4.3
+14-Jun-16
 */
 
 /* v1.0 */
@@ -665,4 +665,42 @@ div.loading-overlay > div::before {
 
 div.loading-overlay > div > p {
 	color: #F2F2F2 !important;
+}
+
+/* v1.4.3 */
+/* Contactgegevens-controleren, small fix opdrachten, huiswerk */
+.dialog .content strong {
+	color: #F2F2F2 !important;
+}
+
+.dialog .content-pane {
+	background-color: #444 !important;
+}
+
+.dialog .content-pane p {
+	color: #FFF !important;
+}
+
+.dialog .content-pane span {
+	color: #FFF !important;
+}
+
+.attachments a {
+	color: #00AFFF !important;
+}
+
+.block h3 .block-menu {
+	color: #F2F2F2 !important;
+}
+
+.agenda-lesdashboard aside .agenda-list li a.current {
+	background-color: #131313 !important;
+}
+
+.agenda-lesdashboard .lesvak-prev-next .content-auto .list li:hover, .agenda-lesdashboard .lesvak-prev-next .content-auto .list a:hover {
+	background-color: #131313 !important;
+}
+
+.agenda-lesdashboard .lesvak-prev-next .content-auto span.icon-up-arrow.prev:hover, .agenda-lesdashboard .lesvak-prev-next .content-auto span.icon-up-arrow.next:hover {
+	background-color: #111 !important;
 }
