@@ -142,9 +142,9 @@ var zesjescultuur = function() {
 				$('.k-selectable tr > td:nth-child(8)').bind('click', function() {
 					$('<footer class="endlink"><a id="zesjescultuurLink">Mutaties berekenen</a></footer>').appendTo('#idBerekening .block'); 
 					$('.k-selectable tr > td:nth-child(8)').unbind();
-					var vakUID = $('td.k-state-selected').parent().attr('data-uid')
-					var vakNaam = $('tr[data-uid=' + '"' + vakUID + '"] > td:nth-child(2) > span:nth-child(1)').text()
 					$('#idBerekening footer a').click(function() {
+						var vakUID = $('td.k-state-selected').parent().attr('data-uid')
+						var vakNaam = $('tr[data-uid=' + '"' + vakUID + '"] > td:nth-child(2) > span:nth-child(1)').text()
 						zesjescultuurCalc(vakNaam, $('.cijfer-berekend').tableToJSON())
 					});
 				});
