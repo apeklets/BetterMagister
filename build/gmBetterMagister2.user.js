@@ -5,16 +5,17 @@
 // @include 	https://sga.magister.net/*
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
 // @require https://rawgit.com/apeklets/BetterMagister/gh-pages/build/js/info.js
+// @require https://rawgit.com/lightswitch05/table-to-json/master/lib/jquery.tabletojson.min.js
 // @author 	Wouter Damen
-// @version 	v1.10.1
+// @version 	v1.11build6
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
 // ==/UserScript==
-var bmVersion = "v1.10.1";
+var bmVersion = "v1.11";
 var metroVersion = BetterMagisterInfo.metroVersion;
 var darkmodeVersion = BetterMagisterInfo.darkmodeVersion;
-var zesjesVersion = 'dev0.3';
+var zesjesVersion = 'v1.1';
 
 var settingsSetup = function() {
 	//Setup widget CSS
@@ -63,37 +64,93 @@ var settingsSetup = function() {
 	});
 };
 
-var zesjescultuurCalc = function() {
-	//Widget
-	var zesjescultuurWidget = $('<div id="zesjescultuur"><div class="block"><h3>Cijfers berekenen</h3><div class="content"><p>Test</p></div><footer class="endlink"><p>' + zesjesVersion + '</p><a>sluiten</a></footer></div></div>');
-	$('#zesjescultuur .endlink a').click(function() {
-		$('#zesjescultuur').remove();
-		$('<footer class="endlink" id="zesjescultuurEndlink"><a id="zesjescultuurLink">Mutaties berekenen</a></footer>').appendTo('#cijferoverzichtgrid');
+var zesjescultuurCalc = function(vak, cijfers) {
+	//Init widget
+	var zesjescultuurWidget = $('<div id="zesjescultuurWidget"><div class="block"><h3>Mutaties</h3><div class="content"><p id="vak"></p><p id="tot"></p><p id="weg"></p><p id="gem"></p></div><footer class="endlink"><a>Sluiten</a></footer></div></div>')
+	GM_addStyle('#zesjescultuurWidget { height: 100%; width: 100%; background-color: rgba(0, 0, 0, 0.67); position: absolute; z-index: 999999;  } ')
+	GM_addStyle('#zesjescultuurWidget .block { width: 500px; margin: auto; background-color: #FFF; margin-top: 100px; border: 1px solid #111; }')	
+	GM_addStyle('#zesjescultuurWidget .block h3 { padding-top: 5px !important; }')
+	GM_addStyle('#vak::before { content: "Vak: "; } #tot::before { content: "Som Cijfers: "; } #weg::before { content: "Som Weging: "; } #gem::before { content: "Gemiddelde: "; }');
+	GM_addStyle('#zesjescultuurWidget .content { height: auto !important; }')
+	zesjescultuurWidget.prependTo('body');
+	$('#vak').text(vak)
+	//Parsing, Calculations
+	jQuery.each(cijfers, function(i, e) {
+		e.Cijfer = Number(e.Cijfer.split(',')[0]) + (Number(e.Cijfer.split(',')[1])) / 10
+		e.Weging = Number(e.Weging);
 	});
-	GM_addStyle('#zesjescultuur { width: 33%; margin: 5px; }')
-	GM_addStyle('#cijferoverzichtgrid { background-color: #242424; }')
-	zesjescultuurWidget.appendTo('#cijferoverzichtgrid');
+	var tot = 0;
+	var weg = 0;
+	jQuery.each(cijfers, function(i, e) {
+		tot += e.Cijfer * e.Weging;
+		weg += e.Weging;
+	});
+	var gem = tot / weg;
+	//Printing calculations
+	$('#tot').text(tot)
+	$('#weg').text(weg)
+	$('#gem').text(gem)
+	$('#zesjescultuurWidget .endlink a').click(function() {
+		zesjescultuurWidget.remove()
+	})
+	//Form
+	GM_addStyle('#nieuwCijfer { width: 90%; margin: auto; } ')
+	GM_addStyle('#nieuwCijfer p { width: 8%; float: left; padding: 4px 0 0 0; }')
+	GM_addStyle('#nieuwCijfer input::-moz-placeholder { color: #000; }')
+	GM_addStyle('#weging { margin-bottom: 2px; } #gemiddelde { width: 46%; float: left; } #cijfer { width: 46%; float: right; }')
+	$('<div id="nieuwCijfer"><form><input id="weging" type="text" placeholder="Weging (bv. 4)"><input id="gemiddelde" type="text" placeholder="Doel gemiddelde (bv. 7.5)"><p>of</p><input id="cijfer" type="text" placeholder="Cijfer (bv. 8.9)"></form></div>').appendTo('#zesjescultuurWidget .content')
+	GM_addStyle('#bereken { margin: 4px 4px 4px 4px; }')
+	$('<button id="bereken">Bereken</button>').appendTo('#zesjescultuurWidget .content');
+	$('#gemiddelde').change(function() {$('#cijfer').val('')})
+	$('#cijfer').change(function() {$('#gemiddelde').val('')})
+	//Reading form
+	$('#bereken').click(function() {
+		if($('#weging').val() == '' || ($('#gemiddelde').val() == '' && $('#cijfer').val() == '' )) {
+			return;
+		} else {
+			if(Number($('#weging').val()).toString() == 'NaN') {
+				$('<p style="color: red">Error: "Weging" is geen nummer (hint: Gebruik voor een comma een .; "4.1" ipv "4,1")</p>').appendTo('#zesjescultuurWidget .content');
+			} else if($('#gemiddelde').val() != '' && Number($('#gemiddelde').val()).toString() == 'NaN') {
+				$('<p style="color: red">Error: "Gemiddelde" is geen nummer (hint: Gebruik voor een comma een .; "4.1" ipv "4,1")</p>').appendTo('#zesjescultuurWidget .content');
+			} else if($('#cijfer').val() != '' && Number($('#cijfer').val()).toString() == 'NaN') {
+				$('<p style="color: red">Error: "Cijfer" is geen nummer (hint: Gebruik voor een comma een .; "4.1" ipv "4,1")</p>').appendTo('#zesjescultuurWidget .content');
+			} else {
+				if($('#gemiddelde').val() != '') {
+					var newGem = Number($('#gemiddelde').val());
+					var newWeg = Number($('#weging').val());
+					var newCijfer = ((newGem * (weg + newWeg)) - tot) / newWeg;
+					$('<p>Cijfer dat je moet halen om ' + newGem + ' te staan: ' + newCijfer + '</p>').appendTo('#zesjescultuurWidget .content');
+				} else if($('#cijfer').val() != '') {
+					var newCijfer = Number($('#cijfer').val());
+					var newWeg = Number($('#weging').val());
+					var newGem = (tot + (newCijfer * newWeg)) / (weg + newWeg);
+					$('<p>Nieuw gemiddelde: ' + newGem + '</p>').appendTo('#zesjescultuurWidget .content');
+				}
+			}
+		}
+	});
 };
 
-var zesjescultuurLoad = function() {
-	//Link CSS
-	GM_addStyle(' #zesjescultuurLink { float: left !important; }');
-	GM_addStyle(' #zesjescultuurLinkx { float: left !important; }');
+var zesjescultuur = function() {
 	//Loading
 	var lazyLoad = setInterval(function() {
 		if (!$('#cijferoverzichtgrid').length) {
 			return;
 		} else {
 			clearInterval(lazyLoad)
-			$('<footer class="endlink" id="zesjescultuurEndlink"><a id="zesjescultuurLink">Mutaties berekenen</a></footer>').appendTo('#cijferoverzichtgrid');
-			$('#zesjescultuurLink').click(function() {
-				$('#zesjescultuurLinkx').remove();
-				zesjescultuurCalc();
-				$('#zesjescultuurLink').remove();
-				$('<a id="zesjescultuurLinkx">Mutaties berekenen</a>').appendTo('#zesjescultuurEndlink');
-			});
+			var wait = setTimeout(function() {
+				$('.k-selectable tr > td:nth-child(8)').bind('click', function() {
+					$('<footer class="endlink"><a id="zesjescultuurLink">Mutaties berekenen</a></footer>').appendTo('#idBerekening .block'); 
+					$('.k-selectable tr > td:nth-child(8)').unbind();
+					var vakUID = $('td.k-state-selected').parent().attr('data-uid')
+					var vakNaam = $('tr[data-uid=' + '"' + vakUID + '"] > td:nth-child(2) > span:nth-child(1)').text()
+					$('#idBerekening footer a').click(function() {
+						zesjescultuurCalc(vakNaam, $('.cijfer-berekend').tableToJSON())
+					});
+				});
+			}, 1000);
 		};
-	}, 2000);
+	}, 1000);
 };
 
 var autoAgendaWeergave = function(x) {
@@ -133,12 +190,15 @@ var main = function() {
 		settingsSetup();
 	});
 	autoAgendaWeergave(GM_getValue('settings-Agenda', 'lijst'));
-	/*if(window.location.href == 'https://sga.magister.net/magister/#/cijfers') {
-		zesjescultuurLoad();
-	}; 
-	$('#menuKnopCijferoverzicht').click(function() {
-		zesjescultuurLoad();
-	}); Zesjescultuur, not complete*/
+	if(window.location.hash == '#/cijfers') {
+		zesjescultuur();
+	} else {
+		window.addEventListener("hashchange", function() {
+			if(window.location.hash == '#/cijfers') {
+				zesjescultuur();
+			}
+		}, false)
+	};
 };
 
 $(document).ready(main);
