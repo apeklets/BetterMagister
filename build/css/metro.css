@@ -1,6 +1,6 @@
 /* Info 
-BetterMagister Metro UI layout v1.4.3
-14-Jun-16
+BetterMagister Metro UI layout v1.5
+08-Jul-16
 */
 
 /* v1.0 */
@@ -703,4 +703,87 @@ div.loading-overlay > div > p {
 
 .agenda-lesdashboard .lesvak-prev-next .content-auto span.icon-up-arrow.prev:hover, .agenda-lesdashboard .lesvak-prev-next .content-auto span.icon-up-arrow.next:hover {
 	background-color: #111 !important;
+}
+
+/* v1.5 */
+/* Small improvements, bugfixes */
+#idDetails span.title:nth-child(1) {
+	text-decoration: underline;
+}
+
+#huiswerkomschrijving .comment p {
+	min-height: 70px;
+	margin-bottom: 5px;
+}
+
+.block .content .message {
+	color: #FFF;
+}
+
+.sm-grid.k-grid .k-grid-content td {
+	border-top: 1px solid #444 !important;
+	border-left: 1px solid #444 !important;
+}
+
+.sm-grid.k-grid .k-grid-content tr:hover {
+	background-color: #141414 !important;
+}
+
+.k-calendar .k-content tbody td.k-state-hover {
+	background: #111 !important;
+} .k-calendar .k-content tbody td.k-state-hover a {
+	background: #111 !important;
+	color: #FFF !important;
+}
+
+table.table-grid-layout tr {
+	border-bottom: 1px solid #444 !important;
+}
+table.table-grid-layout td {
+	border-top: 1px solid #444 !important;
+}
+table.table-grid-layout td + td {
+	border-left: 1px solid #444 !important;
+}
+
+.k-multiselect .k-button {
+	color: #010101 !important;
+	background-color: #FFF !important;
+}
+.k-multiselect.k-header {
+	border-color: #141414 !important;
+}
+.k-multiselect-wrap {
+	background-color: #333 !important;
+}
+
+.onecol {
+	padding-bottom: 7px !important;
+}
+
+.k-grid-header-wrap {
+	border-width: 0 0 0 0 !important;
+}
+
+h3.breadcrumb i::after {
+	padding-top: 5px;
+}
+
+.message a {
+	color: #00AFFF !important;
+	text-decoration: underline !important;
+} .message a:hover {
+	color: #00EAFF !important;
+}
+
+#mappen .widget {
+	padding-right: 0px !important;
+}
+
+.multiple-fancy-box div.fancy-divider {
+	color: #FFF !important;
+}
+
+.new-appointment-block .check > label:nth-child(2) {
+	max-width: none;
 }
