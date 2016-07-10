@@ -4,17 +4,16 @@
 // @description Verbeter de normale Magister 6
 // @include 	https://sga.magister.net/*
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
-// @require https://rawgit.com/apeklets/BetterMagister/gh-pages/build/js/info.js
 // @require https://rawgit.com/lightswitch05/table-to-json/master/lib/jquery.tabletojson.min.js
 // @author 	Wouter Damen
-// @version 	v1.11build6
+// @version 	v1.11.1
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
 // ==/UserScript==
-var bmVersion = "v1.11";
-var metroVersion = BetterMagisterInfo.metroVersion;
-var darkmodeVersion = BetterMagisterInfo.darkmodeVersion;
+var bmVersion = "v1.11.1";
+var metroVersion = "v1.5";
+var darkmodeVersion = "v1.7";
 var zesjesVersion = 'v1.1';
 
 var settingsSetup = function() {
@@ -172,6 +171,26 @@ var autoAgendaWeergave = function(x) {
 	}, 100);
 };
 
+var updateAlert = function() {
+	var updateNotification = $('<div id="updateMsg" class="toast ng-scope info-toast info-msg" style="z-index: 999999;" data-ng-repeat="toast in activeToasts"><span class="glyph" id="updateGlyph"><a href="#"></a></span><span class="ng-binding" data-ng-bind="toast.toast.title">UPDATE!</span><em class="ng-binding" data-ng-bind-html="toast.toast.trustedMessage">Update voor BetterMagister beschikbaar!</em><a href="https://github.com/apeklets/BetterMagister/raw/gh-pages/build/gmBetterMagister2.user.js">Install</a> <a href="">Changelog</a> <a>Sluiten</a><i></i></div>')
+	updateNotification.appendTo('.toasts');
+	$('#updateMsg a').click(function() {
+		$('#updateMsg').remove();
+	})
+};
+
+var updateCheck = function() {
+	$('<script type="text/javascript" src="https://rawgit.com/apeklets/BetterMagister/gh-pages/build/js/updateChecker.js"></script>').appendTo('head');
+	var updateLoad = setInterval(function() {
+		if(!$('.toasts').length) {
+			return;
+		} else {
+			$('<script type="text/javascript">var bmVersion = "v1.11.1"; if(bmVersion != BetterMagisterInfo.bmVersion) {updateAlert();}</script>').appendTo('head')
+			clearInterval(updateLoad)
+		};
+	}, 1000);
+};
+
 var main = function() {
 	GM_addStyle(' .settings-Settings { border-left: 1px solid #666; position: relative; cursor: pointer; }')
 	GM_addStyle(' .settings-Settings:hover { background-color: #000 !important; }');
@@ -199,6 +218,9 @@ var main = function() {
 			}
 		}, false)
 	};
+	if(window.location.hash != '#/inloggen') {
+		updateCheck();
+	}
 };
 
 $(document).ready(main);

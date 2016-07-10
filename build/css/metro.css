@@ -787,3 +787,24 @@ h3.breadcrumb i::after {
 .new-appointment-block .check > label:nth-child(2) {
 	max-width: none;
 }
+
+/* v1.5.1 */
+/* Updatenotification support styles */
+#updateGlyph::before {
+	content: "+" !important;
+}
+#updateMsg {
+	background-color: #d9edf7 !important;
+	border-color: #bce8f1 !important;
+} #updateMsg a {
+	color: #245269;
+	text-decoration: underline;
+	padding-right: 3px;
+} #updateMsg span {
+	color: #133E54;
+} #updateMsg i {
+	background-color: #d9edf7 !important;
+	border-color: #bce8f1 !important;
+} #updateMsg > span:nth-child(2) {
+	font-weight: 700;
+}
