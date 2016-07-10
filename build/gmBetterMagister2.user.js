@@ -6,12 +6,12 @@
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
 // @require https://rawgit.com/lightswitch05/table-to-json/master/lib/jquery.tabletojson.min.js
 // @author 	Wouter Damen
-// @version 	v1.11.1
+// @version 	v1.11.2
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
 // ==/UserScript==
-var bmVersion = "v1.11.1";
+var bmVersion = "v1.11.2";
 var metroVersion = "v1.5";
 var darkmodeVersion = "v1.7";
 var zesjesVersion = 'v1.1';
@@ -138,7 +138,7 @@ var zesjescultuur = function() {
 		} else {
 			clearInterval(lazyLoad)
 			var wait = setTimeout(function() {
-				$('.k-selectable tr > td:nth-child(8)').bind('click', function() {
+				$('.k-selectable tr > td:nth-child(9)').bind('click', function() {
 					$('<footer class="endlink"><a id="zesjescultuurLink">Mutaties berekenen</a></footer>').appendTo('#idBerekening .block'); 
 					$('.k-selectable tr > td:nth-child(8)').unbind();
 					$('#idBerekening footer a').click(function() {
