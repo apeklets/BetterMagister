@@ -722,7 +722,7 @@ div.loading-overlay > div > p {
 
 .sm-grid.k-grid .k-grid-content td {
 	border-top: 1px solid #444 !important;
-	border-left: 1px solid #444 !important;
+	border-left: 1px solid #444;
 }
 
 .sm-grid.k-grid .k-grid-content tr:hover {
