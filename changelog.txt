@@ -56,4 +56,4 @@
 + Agendafunctie optie in settings
 
 ==== Gepland ====
-+ Zesjescultuur (functie die berekent wat je moet halen om een voldoende te staan voor een vak)
++ Grafieken voor cijfers
