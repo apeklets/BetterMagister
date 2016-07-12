@@ -6,12 +6,12 @@
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
 // @require https://rawgit.com/lightswitch05/table-to-json/master/lib/jquery.tabletojson.min.js
 // @author 	Wouter Damen
-// @version 	v1.11.3
+// @version 	v1.11.4
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
 // ==/UserScript==
-var bmVersion = "v1.11.3";
+var bmVersion = "v1.11.4";
 var metroVersion = "v1.5";
 var darkmodeVersion = "v1.7";
 var zesjesVersion = 'v1.1';
@@ -138,16 +138,17 @@ var zesjescultuur = function() {
 		} else {
 			clearInterval(lazyLoad)
 			var wait = setTimeout(function() {
-				$('.k-selectable tr > td:nth-child(9)').bind('click', function() {
+				$('.gemiddeldecolumn').bind('click', function() {
 					$('<footer class="endlink"><a id="zesjescultuurLink">Mutaties berekenen</a></footer>').appendTo('#idBerekening .block'); 
-					$('.k-selectable tr > td:nth-child(9)').unbind();
+					$('.gemiddeldecolumn').unbind();
 					$('#idBerekening footer a').click(function() {
 						var vakUID = $('td.k-state-selected').parent().attr('data-uid')
 						var vakNaam = $('tr[data-uid=' + '"' + vakUID + '"] > td:nth-child(2) > span:nth-child(1)').text()
 						zesjescultuurCalc(vakNaam, $('.cijfer-berekend').tableToJSON())
 					});
 				});
-				//$('<div class="grade-gemiddelde"><span class="cijfer">9,3</span><span class="omschrijving" title="">Gemiddelde</span></div>')
+				//Cijfergrafieken
+				//$('<div class="grade-gemiddelde"><span class="cijfer"></span><span class="omschrijving" title="">Gemiddelde</span></div>')
 			}, 1000);
 		};
 	}, 1000);
@@ -186,7 +187,7 @@ var updateCheck = function() {
 		if(!$('.toasts').length) {
 			return;
 		} else {
-			$('<script type="text/javascript">var bmVersion = "v1.11.3"; if(bmVersion != BetterMagisterInfo.bmVersion) {updateAlert();}</script>').appendTo('head')
+			$('<script type="text/javascript">var bmVersion = "v1.11.4"; if(bmVersion != BetterMagisterInfo.bmVersion) {updateAlert();}</script>').appendTo('head')
 			clearInterval(updateLoad)
 		};
 	}, 1000);
