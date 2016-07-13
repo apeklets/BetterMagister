@@ -6,12 +6,12 @@
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
 // @require https://rawgit.com/lightswitch05/table-to-json/master/lib/jquery.tabletojson.min.js
 // @author 	Wouter Damen
-// @version 	v1.11.4
+// @version 	v1.11.5
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
 // ==/UserScript==
-var bmVersion = "v1.11.4";
+var bmVersion = "v1.11.5";
 var metroVersion = "v1.5.2";
 var darkmodeVersion = "v1.7.1";
 var zesjesVersion = 'v1.1';
