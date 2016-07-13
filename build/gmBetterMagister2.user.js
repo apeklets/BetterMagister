@@ -212,7 +212,7 @@ var updateCheck = function() {
 		if(!$('.toasts').length) {
 			return;
 		} else {
-			$('<script type="text/javascript">var bmVersion = "v1.11.4"; if(bmVersion != BetterMagisterInfo.bmVersion) {updateAlert();}</script>').appendTo('head')
+			$('<script type="text/javascript">var bmVersion = "v1.11.5"; if(bmVersion != BetterMagisterInfo.bmVersion) {updateAlert();}</script>').appendTo('head')
 			clearInterval(updateLoad)
 		};
 	}, 1000);
