@@ -808,3 +808,20 @@ h3.breadcrumb i::after {
 } #updateMsg > span:nth-child(2) {
 	font-weight: 700;
 }
+
+/* v1.5.2 */
+/* Cijfergrafieken support styles */
+.grade-gemiddelde {
+	width: 120px;
+	height: 120px;
+	text-align: center;
+	color: #FFF;
+	padding-top: 10px;
+	background-color: #0096db;
+	margin: 10px 0 0 10px;
+} .grade-gemiddelde .cijfer {
+	font-size: 50px !important;
+} .grade-gemiddelde .omschrijving {
+	font-size: 16px;
+	display: block;
+}

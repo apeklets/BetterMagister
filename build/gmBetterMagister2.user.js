@@ -12,8 +12,8 @@
 // @grant	GM_getValue
 // ==/UserScript==
 var bmVersion = "v1.11.4";
-var metroVersion = "v1.5";
-var darkmodeVersion = "v1.7";
+var metroVersion = "v1.5.2";
+var darkmodeVersion = "v1.7.1";
 var zesjesVersion = 'v1.1';
 
 var settingsSetup = function() {
@@ -147,8 +147,33 @@ var zesjescultuur = function() {
 						zesjescultuurCalc(vakNaam, $('.cijfer-berekend').tableToJSON())
 					});
 				});
-				//Cijfergrafieken
-				//$('<div class="grade-gemiddelde"><span class="cijfer"></span><span class="omschrijving" title="">Gemiddelde</span></div>')
+			//Cijfergrafieken
+				//Gemiddelde
+				$('<div class="grade-gemiddelde" style="display: hidden;"><span class="cijfer"></span><span class="omschrijving" title="">Gemiddelde</span></div>').appendTo('.content-container-cijfers');
+				$('.grade-gemiddelde').hide()
+				var GRindex = 0;
+				$('.gradeHeader').each(function(i) {
+					if($(this).text().contains('G-R')) {
+						GRindex = i
+					}
+				});
+				var gemiddeldeTot = 0
+				var gemiddeldeLength = $('.k-selectable > tbody:nth-child(2) > tr > td:nth-child(' + (GRindex + 3).toString() + ') > span:nth-child(1)').length
+				$('.k-selectable > tbody:nth-child(2) > tr > td:nth-child(' + (GRindex + 3).toString() + ') > span:nth-child(1)').each(function(i) {
+					var e = $(this).text();
+					if(e == "\xA0") {
+						gemiddeldeLength -= 1;
+						return;
+					} else {
+						console.log(e)
+						gemiddeldeTot += Number(e.split(',')[0]) + (Number(e.split(',')[1])) / 100;
+					}
+				});
+				var gemiddelde = gemiddeldeTot / gemiddeldeLength;
+				gemiddeldePrec = gemiddelde.toPrecision(3)
+				$('.grade-gemiddelde .cijfer').text(gemiddeldePrec.toString())
+				$('.grade-gemiddelde').show(400)
+				//
 			}, 1000);
 		};
 	}, 1000);
