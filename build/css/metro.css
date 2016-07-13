@@ -810,7 +810,7 @@ h3.breadcrumb i::after {
 }
 
 /* v1.5.2 */
-/* Cijfergrafieken support styles */
+/* Cijfergrafieken support styles 1*/
 .grade-gemiddelde {
 	width: 120px;
 	height: 120px;
@@ -819,9 +819,18 @@ h3.breadcrumb i::after {
 	padding-top: 10px;
 	background-color: #0096db;
 	margin: 10px 0 0 10px;
+	float: left;
 } .grade-gemiddelde .cijfer {
-	font-size: 50px !important;
+	font-size: 45px !important;
 } .grade-gemiddelde .omschrijving {
 	font-size: 16px;
 	display: block;
+} 
+/* v1.5.3 */
+/* Cijfer grafieken support styles 2*/
+.grade-gemiddelde .subtitle {
+	font-size: 12px;
+} .grade-gemiddelde .cijfer.percentage::after {
+	font-size: 25px;
+	content: '%';
 }
