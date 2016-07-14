@@ -6,12 +6,12 @@
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
 // @require https://rawgit.com/lightswitch05/table-to-json/master/lib/jquery.tabletojson.min.js
 // @author 	Wouter Damen
-// @version 	v1.11.5
+// @version 	v1.11.6
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
 // ==/UserScript==
-var bmVersion = "v1.11.5";
+var bmVersion = "v1.11.6";
 var metroVersion = "v1.5.2";
 var darkmodeVersion = "v1.7.1";
 var zesjesVersion = 'v1.1';
@@ -130,52 +130,99 @@ var zesjescultuurCalc = function(vak, cijfers) {
 	});
 };
 
+var cijfergrafieken = function() {
+	//Gemiddelde
+		$('.grade-gemiddelde').hide()
+		var GRindex = 0;
+		$('.gradeHeader').each(function(i) {
+			if($(this).text().contains('G-R')) {
+				GRindex = i
+			}
+		});
+		var gemiddeldeTot = 0
+		var gemiddeldeLength = $('.k-selectable > tbody:nth-child(2) > tr > td:nth-child(' + (GRindex + 3).toString() + ') > span:nth-child(1)').length
+		$('.k-selectable > tbody:nth-child(2) > tr > td:nth-child(' + (GRindex + 3).toString() + ') > span:nth-child(1)').each(function(i) {
+			var e = $(this).text();
+			if(e == "\xA0") {
+				gemiddeldeLength -= 1;
+				return;
+			} else {
+				gemiddeldeTot += Number(e.split(',')[0]) + (Number(e.split(',')[1])) / 100;
+			}
+		});
+		var gemiddelde = gemiddeldeTot / gemiddeldeLength;
+		gemiddeldePrec = gemiddelde.toPrecision(3)
+		$('.grade-gemiddelde .cijfer.gemiddelde').text(gemiddeldePrec.toString())
+	//Voldoendepercentage
+		var voldoendes = 0
+		var onvoldoendes = 0
+		$('.grade').each(function(i) {
+			if($(this).hasClass('gemiddeldecolumn')) {
+				return;
+			} else if($(this).hasClass('insufficient')) {
+				onvoldoendes++
+				return;
+			} else if(!$(this).hasClass('empty')) {
+				voldoendes++
+				return;
+			}
+		})
+		var voldoendePercentage = ((voldoendes / (voldoendes + onvoldoendes)) * 100).toPrecision(2);
+		$('.grade-gemiddelde .cijfer.percentage').text(voldoendePercentage)
+		var periodes = $('#periodeSelect').val()
+		jQuery.each(periodes, function(i, e) {
+			periodes[i] = " P" + periodes[i]
+		});
+		$('.grade-gemiddelde .subtitle').text("in" + periodes.toString())
+	//Compensatiepunten
+		var teCompenseren = 0
+		var compensatie = 0
+		$('.k-selectable > tbody:nth-child(2) > tr > td:nth-child(' + (GRindex + 4).toString() + ') > span:nth-child(1)').each(function(i) {
+			var e = $(this).text();
+			if(e == "\xA0") {
+				return;
+			} else {
+				var eN = Number(e)
+				if(eN > 6) {
+					compensatie += (eN - 6)
+				} else if(eN < 6) {
+					teCompenseren += (6 - eN)
+				}
+			}
+		})
+		if(compensatie > teCompenseren) {
+			teCompenseren = 0;
+		} else if(teCompenseren > compensatie) {
+			teCompenseren -= compensatie;
+			$('.cijfer.compensatie').addClass('insufficient')
+		}
+		$('.grade-gemiddelde .cijfer.compensatie').text(teCompenseren.toString())
+	$('.grade-gemiddelde').show(400)
+}
+
 var zesjescultuur = function() {
 	//Loading
 	var lazyLoad = setInterval(function() {
 		if (!$('#cijferoverzichtgrid').length) {
 			return;
 		} else {
-			clearInterval(lazyLoad)
+			clearInterval(lazyLoad);
 			var wait = setTimeout(function() {
 				$('.gemiddeldecolumn').bind('click', function() {
 					$('<footer class="endlink"><a id="zesjescultuurLink">Mutaties berekenen</a></footer>').appendTo('#idBerekening .block'); 
 					$('.gemiddeldecolumn').unbind();
 					$('#idBerekening footer a').click(function() {
-						var vakUID = $('td.k-state-selected').parent().attr('data-uid')
-						var vakNaam = $('tr[data-uid=' + '"' + vakUID + '"] > td:nth-child(2) > span:nth-child(1)').text()
-						zesjescultuurCalc(vakNaam, $('.cijfer-berekend').tableToJSON())
+						var vakUID = $('td.k-state-selected').parent().attr('data-uid');
+						var vakNaam = $('tr[data-uid=' + '"' + vakUID + '"] > td:nth-child(2) > span:nth-child(1)').text();
+						zesjescultuurCalc(vakNaam, $('.cijfer-berekend').tableToJSON());
 					});
 				});
-			//Cijfergrafieken
-				//Gemiddelde
-				$('<div class="grade-gemiddelde" style="display: hidden;"><span class="cijfer"></span><span class="omschrijving" title="">Gemiddelde</span></div>').appendTo('.content-container-cijfers');
-				$('.grade-gemiddelde').hide()
-				var GRindex = 0;
-				$('.gradeHeader').each(function(i) {
-					if($(this).text().contains('G-R')) {
-						GRindex = i
-					}
-				});
-				var gemiddeldeTot = 0
-				var gemiddeldeLength = $('.k-selectable > tbody:nth-child(2) > tr > td:nth-child(' + (GRindex + 3).toString() + ') > span:nth-child(1)').length
-				$('.k-selectable > tbody:nth-child(2) > tr > td:nth-child(' + (GRindex + 3).toString() + ') > span:nth-child(1)').each(function(i) {
-					var e = $(this).text();
-					if(e == "\xA0") {
-						gemiddeldeLength -= 1;
-						return;
-					} else {
-						console.log(e)
-						gemiddeldeTot += Number(e.split(',')[0]) + (Number(e.split(',')[1])) / 100;
-					}
-				});
-				var gemiddelde = gemiddeldeTot / gemiddeldeLength;
-				gemiddeldePrec = gemiddelde.toPrecision(3)
-				$('.grade-gemiddelde .cijfer').text(gemiddeldePrec.toString())
-				$('.grade-gemiddelde').show(400)
-				//
+				$('<div class="grade-gemiddelde"><span class="cijfer gemiddelde"></span><span class="omschrijving">Gemiddelde</span></div>').appendTo('.content-container-cijfers');
+				$('<div class="grade-gemiddelde"><span class="cijfer percentage"></span><span class="omschrijving">Voldoendes</span><span class="subtitle"></span></div>').appendTo('.content-container-cijfers');
+				$('<div class="grade-gemiddelde"><span class="cijfer compensatie"></span><span class="omschrijving">Te Compenseren</span></div>').appendTo('.content-container-cijfers');
+				cijfergrafieken();
 			}, 1000);
-		};
+		}
 	}, 1000);
 };
 
@@ -212,7 +259,7 @@ var updateCheck = function() {
 		if(!$('.toasts').length) {
 			return;
 		} else {
-			$('<script type="text/javascript">var bmVersion = "v1.11.5"; if(bmVersion != BetterMagisterInfo.bmVersion) {updateAlert();}</script>').appendTo('head')
+			$('<script type="text/javascript">var bmVersion = "v1.11.6"; if(bmVersion != BetterMagisterInfo.bmVersion) {updateAlert();}</script>').appendTo('head')
 			clearInterval(updateLoad)
 		};
 	}, 1000);
@@ -228,9 +275,6 @@ var main = function() {
 	};
 	if(GM_getValue('settings-MetroUI', false)) {
 		$('<link rel="stylesheet" href="https://rawgit.com/apeklets/BetterMagister/gh-pages/build/css/metro.min.css">').appendTo('head');
-	};
-	if($('body').attr('class') == 'account') {
-		$('.version span').text($('.version span').attr('data-ng-bind-template') + ', BetterMagister v' + bmVersion);
 	};
 	$('.settings-Settings').click(function() {
 		settingsSetup();
