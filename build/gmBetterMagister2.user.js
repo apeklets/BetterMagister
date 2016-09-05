@@ -2,16 +2,16 @@
 // @name 	BetterMagister2
 // @namespace 	betterSgaMagisterNet2
 // @description Verbeter de normale Magister 6
-// @include 	https://sga.magister.net/*
+// @include 	https://*.magister.net/*
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
 // @require https://rawgit.com/lightswitch05/table-to-json/master/lib/jquery.tabletojson.min.js
 // @author 	Wouter Damen
-// @version 	v1.11.6
+// @version 	v1.12build4
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
 // ==/UserScript==
-var bmVersion = "v1.11.6";
+var bmVersion = "v1.12";
 var metroVersion = "v1.5.2";
 var darkmodeVersion = "v1.7.1";
 var zesjesVersion = 'v1.1';
@@ -27,9 +27,13 @@ var settingsSetup = function() {
 	GM_addStyle(' #styleVersion { padding: 0 8px 8px 8px !important; }')
 	GM_addStyle(' .settings-Setup-widget h3 { padding-top: 5px !important; font-weight: bold !important; }')
 	GM_addStyle(' .settings-Setup-widget .content { height: auto !important; }')
+	GM_addStyle(' .settings-Setup-form .checkbox-input label { font-size: 0.8rem; padding-left: 10px !important; }')
+	GM_addStyle(' .settings-Setup-form h5 { color: #FFF; font-size: 1rem; }')
+	GM_addStyle(' .settings-Setup-form .checkbox-input input[type="checkbox"]:checked + label span::after { position: relative !important; }')
 	//Setup widget JS
 	$('<div class="settings-Setup-widget"><div class="block"><h3>BetterMagister Settings</h3><div class="content"><form class="settings-Setup-form"><label for="stylesheet">Stylesheet</label><p id="styleVersion"></p><select name="stylesheet" id="stylesheet"><option value="metro">Metro UI</option><option value="darkmode">Dark Mode</option><option value="defaultmode">Default</option></select></form><button>Opslaan</button></div><footer class="endlink"><p>BetterMagister ' + bmVersion + '</p><a>sluiten</a></footer></div></div>').prependTo('body');
 	$('<label for="settings-Agenda">Agenda weergave</label><p style="padding: 0 8px 8px 8px !important">Verandert de agendaweergave automatisch</p><select name="settings-Agenda" id="settings-Agenda"><option value="lijst">Afsprakenlijst</option><option value="dag">Dagoverzicht</option><option value="week">Weekoverzicht</option><option value="werkweek">Werkweekoverzicht</option></select>').appendTo('.settings-Setup-form');
+	$('<h5>Inloggen</h5><p style="padding: 0 8px 8px 8px !important">Alle wachtwoorden worden locaal en versleuteld opgeslagen.</p><div class="checkbox-input" id="login"><input class="ng-pristine ng-untouched ng-valid" name="rememberpw" data-ng-model="rememberUsername" id="rememberpw" tabindex="3" type="checkbox"><label for="rememberpw"><span></span>Wachtwoord onthouden</label><input class="ng-pristine ng-untouched ng-valid" name="autologin" data-ng-model="rememberUsername" id="autologin" tabindex="3" type="checkbox"><label for="autologin"><span></span>Automatisch Inloggen</label></div>').appendTo('.settings-Setup-form');
 	if(GM_getValue('settings-darkMode', false)) { //Opgeslagen waardes laden
 		$('.settings-Setup-form select#stylesheet').val('darkmode');
 		$('#styleVersion').text('Huidige Stylesheet: ' + darkmodeVersion);
@@ -40,6 +44,19 @@ var settingsSetup = function() {
 		$('.settings-Setup-form select').val('defaultmode');
 	};
 	$('.settings-Setup-form select#settings-Agenda').val(GM_getValue('settings-Agenda', 'lijst'));
+	$('#login > label:nth-child(2) > span:nth-child(1)').click(function() {
+		$('#rememberpw').toggleClass('checked')
+	});
+	$('#login > label:nth-child(4) > span:nth-child(1)').click(function() {
+		$('#autologin').toggleClass('checked')
+	});
+	if(GM_getValue('settings-Savepw', false)) {
+		$('#login > label:nth-child(2) > span:nth-child(1)').click()
+	}
+	if(GM_getValue('settings-autoLogin', false)) {
+		$('#login > label:nth-child(4) > span:nth-child(1)').click()
+	}
+	
 	$('.settings-Setup-widget button').click(function() { //Opslaan
 		//Stylesheet
 		if($('.settings-Setup-form select#stylesheet').val() == 'metro') {
@@ -54,7 +71,18 @@ var settingsSetup = function() {
 		};
 		//Agendaweergave
 		GM_setValue('settings-Agenda', $('.settings-Setup-form select#settings-Agenda').val());
-		
+		//Inloggen
+		if($('#rememberpw').hasClass('checked')) {
+			GM_setValue('settings-Savepw', true);
+		} else {
+			GM_setValue('settings-Savepw', false);
+		};
+		if($('#autologin').hasClass('checked')) {
+			GM_setValue('settings-autoLogin', true);
+			GM_setValue('settings-Savepw', true);
+		} else {
+			GM_setValue('settings-autoLogin', false);
+		};
 		GM_setValue('settings-Setup', false);
 		$('.settings-Setup-widget').remove();
 	});
@@ -100,6 +128,7 @@ var zesjescultuurCalc = function(vak, cijfers) {
 	$('<div id="nieuwCijfer"><form><input id="weging" type="text" placeholder="Weging (bv. 4)"><input id="gemiddelde" type="text" placeholder="Doel gemiddelde (bv. 7.5)"><p>of</p><input id="cijfer" type="text" placeholder="Cijfer (bv. 8.9)"></form></div>').appendTo('#zesjescultuurWidget .content')
 	GM_addStyle('#bereken { margin: 4px 4px 4px 4px; }')
 	$('<button id="bereken">Bereken</button>').appendTo('#zesjescultuurWidget .content');
+	$('<p id="error" style="color: red"></p>').appendTo('#zesjescultuurWidget .content')
 	$('#gemiddelde').change(function() {$('#cijfer').val('')})
 	$('#cijfer').change(function() {$('#gemiddelde').val('')})
 	//Reading form
@@ -108,12 +137,13 @@ var zesjescultuurCalc = function(vak, cijfers) {
 			return;
 		} else {
 			if(Number($('#weging').val()).toString() == 'NaN') {
-				$('<p style="color: red">Error: "Weging" is geen nummer (hint: Gebruik voor een comma een .; "4.1" ipv "4,1")</p>').appendTo('#zesjescultuurWidget .content');
+				$('#error').text('Error: "Cijfer" is geen nummer (hint: Gebruik voor een comma een .; "4.1" ipv "4,1")')
 			} else if($('#gemiddelde').val() != '' && Number($('#gemiddelde').val()).toString() == 'NaN') {
-				$('<p style="color: red">Error: "Gemiddelde" is geen nummer (hint: Gebruik voor een comma een .; "4.1" ipv "4,1")</p>').appendTo('#zesjescultuurWidget .content');
+				$('#error').text('Error: "Cijfer" is geen nummer (hint: Gebruik voor een comma een .; "4.1" ipv "4,1")')
 			} else if($('#cijfer').val() != '' && Number($('#cijfer').val()).toString() == 'NaN') {
-				$('<p style="color: red">Error: "Cijfer" is geen nummer (hint: Gebruik voor een comma een .; "4.1" ipv "4,1")</p>').appendTo('#zesjescultuurWidget .content');
+				$('#error').text('Error: "Cijfer" is geen nummer (hint: Gebruik voor een comma een .; "4.1" ipv "4,1")')
 			} else {
+				$('#error').text('')
 				if($('#gemiddelde').val() != '') {
 					var newGem = Number($('#gemiddelde').val());
 					var newWeg = Number($('#weging').val());
@@ -208,6 +238,9 @@ var zesjescultuur = function() {
 		} else {
 			clearInterval(lazyLoad);
 			var wait = setTimeout(function() {
+				if(!(!$('.k-selectable tbody').children())) {
+					$('.content-container-cijfers').html('<div class="loading-overlay ng-isolate-scope"><div class="icon-no-data"><p class="no-items">Geen gegevens</p></div></div>')
+				}
 				$('.gemiddeldecolumn').bind('click', function() {
 					$('<footer class="endlink"><a id="zesjescultuurLink">Mutaties berekenen</a></footer>').appendTo('#idBerekening .block'); 
 					$('.gemiddeldecolumn').unbind();
@@ -259,22 +292,58 @@ var updateCheck = function() {
 		if(!$('.toasts').length) {
 			return;
 		} else {
-			$('<script type="text/javascript">var bmVersion = "v1.11.6"; if(bmVersion != BetterMagisterInfo.bmVersion) {updateAlert();}</script>').appendTo('head')
+			$('<script type="text/javascript">var bmVersion = ' + bmVersion + '; if(bmVersion != BetterMagisterInfo.bmVersion) {updateAlert();}</script>').appendTo('head')
 			clearInterval(updateLoad)
 		};
 	}, 1000);
+};
+
+var savePassword = function() {
+	var lazyLoad = setInterval(function() {
+		if(!$('.text-input #password').length) {
+			return;
+		} else {
+			GM_addStyle('#checkbox-rememberpw { margin-top: 35px; }') //Adding in checkbox
+			GM_addStyle('.account .checkbox-input { height: 0px !important; }')
+			$('<div class="checkbox-input" id="checkbox-rememberpw"><input class="ng-pristine ng-untouched ng-valid" name="rememberpw" data-ng-model="rememberUsername" id="rememberpw" tabindex="3" type="checkbox"><label for="rememberpw"><span></span>Wachtwoord onthouden</label></div>').appendTo('.content fieldset');
+			if(GM_getValue('saved-Password', false) !== false && (GM_getValue('settings-Savepw', false) || GM_getValue('settings-autoLogin', false))) { //Loading saved password, if any
+				$('#password').val(GM_getValue('saved-Password', ""));
+				 //Trigger change event directly from DOM.
+				if(GM_getValue('settings-autoLogin', false)) {
+					$('<script type="text/javascript">$(\'#password\').change(); $(\'.btn-primary3\').click()</script>').appendTo('head');
+				} else {
+					$('<script type="text/javascript">$(\'#password\').change()</script>').appendTo('head');
+				};
+			};
+			if(GM_getValue('settings-Savepw', false) || GM_getValue('settings-autoLogin', false)) {
+				$('#checkbox-rememberpw input[type="checkbox"]').attr('checked', 'checked');
+			};
+			$('.btn-primary3').click(function() { //Saving new password
+				if($('#checkbox-rememberpw input[type="checkbox"]:checked').length == 1) {
+					GM_setValue('saved-Password', $('.text-input #password').val());
+					GM_setValue('settings-Savepw', true);
+				} else {
+					GM_setValue('settings-Savepw', false);
+				}
+			});
+			clearInterval(lazyLoad)
+		}
+	}, 100);
 };
 
 var main = function() {
 	GM_addStyle(' .settings-Settings { border-left: 1px solid #666; position: relative; cursor: pointer; }')
 	GM_addStyle(' .settings-Settings:hover { background-color: #000 !important; }');
 	GM_addStyle(' .account .settings-Settings { display: none !important; }')
-	$('<div class="settings-Settings"><span class="icon-settings" style="color: red !important">::before</span></div>').appendTo('.header');
+	$('<div class="settings-Settings"><span class="icon-settings" style="color: red !important"></span></div>').appendTo('.header');
 	if(GM_getValue('settings-darkMode', false)) {
 		$('<link rel="stylesheet" href="https://rawgit.com/apeklets/BetterMagister/gh-pages/build/css/darkmode.min.css">').appendTo('head');
 	};
 	if(GM_getValue('settings-MetroUI', false)) {
 		$('<link rel="stylesheet" href="https://rawgit.com/apeklets/BetterMagister/gh-pages/build/css/metro.min.css">').appendTo('head');
+	};
+	if($('body').attr('class') == 'account') {
+		savePassword();
 	};
 	$('.settings-Settings').click(function() {
 		settingsSetup();
