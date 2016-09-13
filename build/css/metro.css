@@ -834,3 +834,9 @@ h3.breadcrumb i::after {
 	font-size: 25px;
 	content: '%';
 }
+
+/* v1.5.4 */
+/* Achtergrondplaatje van Magister v6.1.4 verwijderd */
+.account mg-background-carousel {
+	display: none;
+}
