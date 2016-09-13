@@ -470,3 +470,9 @@ span.datetime-label {
 } #updateMsg > span:nth-child(2) {
 	font-weight: 700;
 }
+
+/* v1.7.2 */
+/* Achtergrondplaatje van Magister v6.1.4 verwijderd */
+.account mg-background-carousel {
+	display: none;
+}
