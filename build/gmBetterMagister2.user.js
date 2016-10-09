@@ -315,8 +315,8 @@ var updateCheck = function() {
 		if(!$('.toasts').length) {
 			return;
 		} else {
-			$('<script id="updateCheck" type="text/javascript">var bmVersion = ' + bmVersion + '; if(bmVersion != BetterMagisterInfo.bmVersion) {updateAlert();}</script>').appendTo('head');
 			clearInterval(updateLoad);
+			$('<script id="updateCheck" type="text/javascript">var bmVersion = "' + bmVersion + '"; if(bmVersion != BetterMagisterInfo.bmVersion) {updateAlert();}</script>').appendTo('head');
 		};
 	}, 1000);
 };
