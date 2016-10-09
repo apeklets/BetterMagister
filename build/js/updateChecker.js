@@ -1,7 +1,7 @@
 var BetterMagisterInfo = {
-	metroVersion: "Metro v1.5.1",
-	darkmodeVersion: "Dark Mode 1.7.1",
-	bmVersion: "v1.12"
+	metroVersion: "Metro v1.5.5",
+	darkmodeVersion: "Dark Mode 1.7.3",
+	bmVersion: "v1.13"
 };
 
 var updateAlert = function() {
