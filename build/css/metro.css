@@ -711,7 +711,7 @@ div.loading-overlay > div > p {
 	text-decoration: underline;
 }
 
-#huiswerkomschrijving .comment p {
+#huiswerkomschrijving .comment {
 	min-height: 70px;
 	margin-bottom: 5px;
 }
@@ -839,4 +839,25 @@ h3.breadcrumb i::after {
 /* Achtergrondplaatje van Magister v6.1.4 verwijderd */
 .account mg-background-carousel {
 	display: none;
+}
+
+/* v1.5.5 */
+/* Small bugfixes; huiswerk comment, berichten editing */
+
+body[contenteditable="true"] {
+	background-color: #FFF !important;
+}
+
+.attachment-bar::before {
+	color: #F2F2F2;
+}
+
+#berichten-detail-container .new-message-block li label {
+	color: #F2F2F2;
+} #berichten-detail-container .k-dropdown .k-input {
+	color: #FFF;
+} #berichten-detail-container .k-dropdown .k-dropdown-wrap .k-select::after {
+	border-color: #EEE rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) rgba(255, 255, 255, 0);
+} #berichten-detail-container .new-message-block .contact-personen .fancy-input ul {
+	color: #FFF;
 }
