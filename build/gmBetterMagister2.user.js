@@ -6,12 +6,12 @@
 // @require  http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js
 // @require https://rawgit.com/lightswitch05/table-to-json/master/lib/jquery.tabletojson.min.js
 // @author 	Wouter Damen
-// @version 	v1.13
+// @version 	v1.13.1
 // @grant 	GM_addStyle
 // @grant	GM_setValue
 // @grant	GM_getValue
 // ==/UserScript==
-var bmVersion = "v1.13";
+var bmVersion = "v1.13.1";
 var metroVersion = "v1.5.5";
 var darkmodeVersion = "v1.7.3";
 var zesjesVersion = 'v1.1';
@@ -564,13 +564,13 @@ var main = function() {
 		zesjescultuur();
 	}
 	if(window.location.hash == '#/vandaag') { //fix dragging bug
-		fixDrag();
+		//fixDrag();
 	}
 	window.addEventListener("hashchange", function() {
 		if(window.location.hash == '#/cijfers') {
 			zesjescultuur();
 		} else if(window.location.hash == '#/vandaag') {
-			fixDrag();
+			//fixDrag();
 		}
 	})
 	if(window.location.hash != '#/inloggen') {
