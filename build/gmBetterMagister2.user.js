@@ -173,6 +173,13 @@ var cijfergrafieken = function() {
 				GRindex = i
 			}
 		});
+		if(GRindex == 0) {
+			$('.gradeHeader').each(function(i) {
+				if($(this).text() == 'RAP') {
+					GRindex = i
+				}
+			})
+		}
 		var gemiddeldeTot = 0
 		var gemiddeldeLength = $('.k-selectable > tbody:nth-child(2) > tr > td:nth-child(' + (GRindex + 3).toString() + ') > span:nth-child(1)').length
 		$('.k-selectable > tbody:nth-child(2) > tr > td:nth-child(' + (GRindex + 3).toString() + ') > span:nth-child(1)').each(function(i) {
@@ -243,7 +250,7 @@ var zesjescultuur = function() {
 			clearInterval(lazyLoad);
 			if(GM_getValue('settings-Cijfers', 'huidig') == 'alle') {
 				var wait = setTimeout(function() {
-					$('#periodeSelect_taglist .k-button:last-child span:last-child').click();
+					$('#periodeSelect_taglist .k-button:last-child span').click();
 				}, 1000)
 			}
 			var wait = setTimeout(function() {
@@ -475,6 +482,63 @@ var setupTour = function() {
 	}, 500);
 }
 
+var fixDrag = function() {
+	var lazyLoad = setInterval(function() {
+		if(!$('.widget').length) {
+			return;
+		} else {
+			clearInterval(lazyLoad);
+			$.each($('.ng-isolate-scope[data-sm-drag-drop="{drag: true}"]'), function() {
+				var data = $._data($(this).get(0), 'events')
+				var elem = $(this)
+				$('.edit-layout').click(function() {
+					console.log(data)
+					$.each(data, function() {
+						$.each(this, function() {
+							elem.bind(this.type, this.handler);
+						})
+					})
+				})
+				$(this).unbind();
+			})
+			$('.edit-layout').click(function() {
+				$('.edit-layout').click(function() {
+					fixDrag();
+				})
+			})
+		}
+	}, 500)
+}
+
+var fixDrag2 = function() {
+	var lazyLoad = setInterval(function() {
+		if(!$('.widget').length) {
+			return;
+		} else {
+			clearInterval(lazyLoad);
+			$.each($('.ng-isolate-scope[data-sm-drag-drop="{drag: true}"]'), function() {
+				var clone = $(this).clone(true,  true);
+				clone.prependTo($(this).parent());
+				clone.hide();
+				$(this).unbind();
+				var elem = $(this)
+				$('.edit-layout').click(function() {
+					elem.remove();
+					clone.show();
+					clone.css('display', '')
+				})
+			})
+			$('.edit-layout').click(function() {
+				$('.edit-layout').click(function() {
+					var wait = setTimeout(function() {
+						window.location.reload();
+					}, 500)
+				})
+			})
+		}
+	}, 500)
+}
+
 var main = function() {
 	GM_addStyle(' .settings-Settings { border-left: 1px solid #666; position: relative; cursor: pointer; }')
 	GM_addStyle(' .settings-Settings:hover { background-color: #000 !important; }');
@@ -498,13 +562,17 @@ var main = function() {
 	autoAgendaWeergave(GM_getValue('settings-Agenda', 'lijst'));
 	if(window.location.hash == '#/cijfers') {
 		zesjescultuur();
-	} else {
-		window.addEventListener("hashchange", function() {
-			if(window.location.hash == '#/cijfers') {
-				zesjescultuur();
-			}
-		})
-	};
+	}
+	if(window.location.hash == '#/vandaag') { //fix dragging bug
+		fixDrag();
+	}
+	window.addEventListener("hashchange", function() {
+		if(window.location.hash == '#/cijfers') {
+			zesjescultuur();
+		} else if(window.location.hash == '#/vandaag') {
+			fixDrag();
+		}
+	})
 	if(window.location.hash != '#/inloggen') {
 		updateCheck();
 	};

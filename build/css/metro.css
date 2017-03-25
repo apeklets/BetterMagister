@@ -861,3 +861,13 @@ body[contenteditable="true"] {
 } #berichten-detail-container .new-message-block .contact-personen .fancy-input ul {
 	color: #FFF;
 }
+
+/* v1.5.6 */
+/* Fixing stupid Magister update */
+
+#vandaag-container .grade-widget ul {
+	min-height: 81px;
+}
+.widget .list li {
+	border-top: 0px solid #E5E5E5;
+}
